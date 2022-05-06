@@ -8,7 +8,7 @@ const express_1 = __importDefault(require("express"));
 const cors_1 = __importDefault(require("cors"));
 const _middlewares_1 = require("./_middlewares");
 const express_validator_1 = require("express-validator");
-const alvillantas_1 = require("./alvillantas");
+const contact_1 = require("./contact");
 const app = (0, express_1.default)();
 exports.app = app;
 app.use((0, cors_1.default)({ origin: "*" }));
@@ -19,7 +19,7 @@ app.post("/contact", [
     (0, express_validator_1.body)("contact.firstName").exists(),
     (0, express_validator_1.body)("contact.lastName").exists(),
     (0, express_validator_1.body)("contact.email").exists(),
-    (0, express_validator_1.body)("contact.phone").exists(),
-], _middlewares_1.validateRequest, alvillantas_1.PostContact);
+    (0, express_validator_1.body)("contact.phoneNumber").exists(),
+], _middlewares_1.validateRequest, contact_1.PostContact);
 app.use(_middlewares_1.errorHandler);
 //# sourceMappingURL=index.js.map

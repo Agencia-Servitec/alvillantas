@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import { validateRequest, errorHandler } from "./_middlewares";
 import { body } from "express-validator";
-import { PostContact as PostContactAlvillantas } from "./alvillantas";
+import { PostContact } from "./contact";
 
 const app: express.Application = express();
 
@@ -18,10 +18,10 @@ app.post(
     body("contact.firstName").exists(),
     body("contact.lastName").exists(),
     body("contact.email").exists(),
-    body("contact.phone").exists(),
+    body("contact.phoneNumber").exists(),
   ],
   validateRequest,
-  PostContactAlvillantas
+  PostContact
 );
 
 app.use(errorHandler);
