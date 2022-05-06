@@ -13,11 +13,7 @@
     ],
     "source": "functions"
   },
-  "extensions": {
-    "storage-resize-images": "firebase/storage-resize-images@0.1.22",
-    "firestore-bigquery-export-vrtl": "firebase/firestore-bigquery-export@0.1.20",
-    "firestore-bigquery-export": "firebase/firestore-bigquery-export@0.1.20"
-  },
+  "extensions": {},
   "storage": {
     "rules": "storage.rules"
   },
