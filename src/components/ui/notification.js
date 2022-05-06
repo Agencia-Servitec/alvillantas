@@ -1,5 +1,4 @@
 import notificationAntd from "antd/lib/notification";
-import React from "react";
 
 // type Type = "error" | "success" | "info" | "warning" | "open" | "close";
 //

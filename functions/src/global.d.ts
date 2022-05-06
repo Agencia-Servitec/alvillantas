@@ -6,4 +6,6 @@ interface ContactCommon {
   message?: string;
 }
 
-interface ContactAlvillantas extends ContactCommon {}
+interface ContactAlvillantas extends ContactCommon {
+  nationality?: string;
+}

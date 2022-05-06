@@ -23,9 +23,17 @@ const global = css`
     border: 1px solid ${({ theme }) => theme.colors.gray};
     border-radius: 0.5rem;
     padding: 0.7rem;
+
     legend {
       width: auto;
       margin: 0.6rem;
+    }
+  }
+
+  .link-color {
+    color: #00a1f6;
+    &:hover {
+      opacity: 1;
     }
   }
 `;
