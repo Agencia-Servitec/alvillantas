@@ -40,12 +40,13 @@ const mapContact = (contactId, contact) => {
     const createAt = (0, moment_1.default)();
     return (0, lodash_1.assign)({}, Object.assign({}, contact), {
         id: contactId,
+        issue: (0, lodash_1.capitalize)(contact.issue),
         firstName: contact.firstName.toLowerCase(),
         lastName: contact.lastName.toLowerCase(),
         email: contact.email.toLowerCase(),
-        createAt: createAt,
         searchData: searchData(contactId, createAt, contact),
         status: "pending",
+        createAt: createAt,
     });
 };
 const searchData = (contactId, createAt, contact) => {
