@@ -17,7 +17,9 @@ export const sendMailContactReceptor = async (
   await sendMail({
     to: mailer.contact.to,
     bcc: mailer.contact.bcc,
-    subject: "Web contácto",
+    subject: contact.issue
+      ? capitalize(contact.issue)
+      : "Alvillantas Web contácto",
     html: html(template.contactEmailReceptor, mapMail(contact)),
   });
 
@@ -27,6 +29,9 @@ const mapMail = (contact: ContactAlvillantas): Mail => ({
     lastName: contact.lastName,
     email: contact.email,
     phoneNumber: contact.phoneNumber,
+    ...(contact.issue && {
+      issue: capitalize(contact.issue),
+    }),
     ...(contact.message && {
       message: contact.message,
     }),
