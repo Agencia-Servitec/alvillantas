@@ -41,7 +41,7 @@ export const Contacts = () => {
   const { required, error } = useFormUtils({ errors, schema });
 
   useEffect(() => {
-    fetchContacts();
+    (() => fetchContacts())();
   }, []);
 
   const fetchContacts = async () => {
@@ -74,7 +74,7 @@ export const Contacts = () => {
   return (
     <Row gutter={[16, 16]}>
       <Col span={24}>
-        <Title level={3}>Contacts</Title>
+        <Title level={3}>Contactos recibidos</Title>
       </Col>
 
       <Col span={24}>
@@ -87,7 +87,7 @@ export const Contacts = () => {
                 defaultValue=""
                 render={({ field: { onChange, value, name } }) => (
                   <Input
-                    label="Ingrese nombre"
+                    label="Ingrese nombres"
                     size="large"
                     name={name}
                     value={value}
@@ -194,10 +194,22 @@ export const Contacts = () => {
                         <Text className="item-text">Teléfono: </Text>
                         <Text strong>{contact.phoneNumber}</Text>
                       </div>
+                      {contact.issue && (
+                        <div className="item">
+                          <Text className="item-text">Asunto: </Text>
+                          <Text strong>{contact.issue}</Text>
+                        </div>
+                      )}
                       {contact.message && (
                         <div className="item">
                           <Text className="item-text">Mensaje: </Text>
                           <Text strong>{contact.message}</Text>
+                        </div>
+                      )}
+                      {contact.createAt && (
+                        <div className="item">
+                          <Text className="item-text">F. creación: </Text>
+                          <Text strong>{contact.createAt}</Text>
                         </div>
                       )}
                     </DescriptionWrapper>

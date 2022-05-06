@@ -5,8 +5,9 @@ import {
   sendMailContactReceptor,
 } from "../../mailer/alvillantas";
 import { firestore } from "../../_firebase";
-import { assign } from "lodash";
-import moment from "moment";
+import { assign, capitalize } from "lodash";
+import moment, { Moment } from "moment";
+import { uniq } from "../../utils/abstract";
 
 interface Body {
   contact: ContactAlvillantas;
@@ -39,17 +40,48 @@ export const PostContact = async (
 };
 
 const setContactUsers = async (contact: ContactAlvillantas) => {
-  await firestore.collection("contacts").doc().set(mapContact(contact));
+  const contactId = firestore.collection("contacts").doc().id;
+
+  await firestore
+    .collection("contacts")
+    .doc(contactId)
+    .set(mapContact(contactId, contact));
 };
 
-const mapContact = (contact: ContactAlvillantas) =>
-  assign(
+const mapContact = (contactId: string, contact: ContactAlvillantas) => {
+  const createAt = moment();
+  return assign(
     {},
     { ...contact },
     {
+      id: contactId,
+      issue: capitalize(contact.issue),
       firstName: contact.firstName.toLowerCase(),
       lastName: contact.lastName.toLowerCase(),
       email: contact.email.toLowerCase(),
-      createAt: moment(),
+      searchData: searchData(contactId, createAt, contact),
+      status: "pending",
+      createAt: createAt,
     }
   );
+};
+
+const searchData = (
+  contactId: string,
+  createAt: Moment,
+  contact: ContactAlvillantas
+): string[] => {
+  const strings = [
+    contactId,
+    ...contact.firstName.split(" "),
+    ...contact.lastName.split(" "),
+    contact.phoneNumber,
+    contact.email,
+    contact.status || "pending",
+    moment(createAt).format("DD/MM/YYYY"),
+  ].filter((string) => string);
+
+  logger.log("[SEARCH-DATA]", strings);
+
+  return uniq(strings);
+};
