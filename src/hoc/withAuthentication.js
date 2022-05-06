@@ -106,6 +106,7 @@ export const withAuthentication = (Component) => {
       );
 
       return () => unsubscribeAuthStateChanged();
+      // eslint-disable-next-line
     }, [
       globalRegister,
       globalIsLoadingCreateUser,

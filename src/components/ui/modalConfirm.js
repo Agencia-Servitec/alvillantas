@@ -1,5 +1,4 @@
 import Modal from "antd/lib/modal";
-import React from "react";
 
 // interface Props {
 //     centered?: boolean;

@@ -5,7 +5,7 @@ import { Divider, List, Skeleton } from "antd";
 import Row from "antd/lib/row";
 import Col from "antd/lib/col";
 import { useHistory } from "react-router";
-import { Form, IconAction, Input, notification } from "../../components/ui";
+import { Form, Input, notification } from "../../components/ui";
 import Button from "antd/lib/button";
 import styled from "styled-components";
 import { Controller, useForm } from "react-hook-form";
@@ -14,7 +14,6 @@ import * as yup from "yup";
 import Text from "antd/lib/typography/Text";
 import { capitalize, defaultTo, startCase } from "lodash";
 import { useDevice, useFormUtils, useGenerateRandomColor } from "../../hooks";
-import { faEdit, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export const Contacts = () => {
   const history = useHistory();
@@ -168,16 +167,14 @@ export const Contacts = () => {
                     </ContactPicture>
                   }
                   title={
-                    <Title
-                      level={4}
+                    <h2
+                      className="link-color"
                       onClick={() => navigateTo(`/contact/${contact.id}`)}
                     >
-                      <a>
-                        {startCase(
-                          capitalize(`${contact.firstName} ${contact.lastName}`)
-                        )}
-                      </a>
-                    </Title>
+                      {startCase(
+                        capitalize(`${contact.firstName} ${contact.lastName}`)
+                      )}
+                    </h2>
                   }
                   description={
                     <DescriptionWrapper>

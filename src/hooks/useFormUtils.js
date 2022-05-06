@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { get, isEmpty, toNumber } from "lodash";
 
 // interface Props {
