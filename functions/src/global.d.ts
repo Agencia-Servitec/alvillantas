@@ -8,4 +8,5 @@ interface ContactCommon {
 
 interface ContactAlvillantas extends ContactCommon {
   nationality?: string;
+  status?: string;
 }

@@ -9,6 +9,7 @@ const alvillantas_1 = require("../../mailer/alvillantas");
 const _firebase_1 = require("../../_firebase");
 const lodash_1 = require("lodash");
 const moment_1 = __importDefault(require("moment"));
+const abstract_1 = require("../../utils/abstract");
 const PostContact = async (req, res, next) => {
     try {
         const { body: contact } = req;
@@ -29,12 +30,35 @@ const PostContact = async (req, res, next) => {
 };
 exports.PostContact = PostContact;
 const setContactUsers = async (contact) => {
-    await _firebase_1.firestore.collection("contacts").doc().set(mapContact(contact));
+    const contactId = _firebase_1.firestore.collection("contacts").doc().id;
+    await _firebase_1.firestore
+        .collection("contacts")
+        .doc(contactId)
+        .set(mapContact(contactId, contact));
 };
-const mapContact = (contact) => (0, lodash_1.assign)({}, Object.assign({}, contact), {
-    firstName: contact.firstName.toLowerCase(),
-    lastName: contact.lastName.toLowerCase(),
-    email: contact.email.toLowerCase(),
-    createAt: (0, moment_1.default)(),
-});
+const mapContact = (contactId, contact) => {
+    const createAt = (0, moment_1.default)();
+    return (0, lodash_1.assign)({}, Object.assign({}, contact), {
+        id: contactId,
+        firstName: contact.firstName.toLowerCase(),
+        lastName: contact.lastName.toLowerCase(),
+        email: contact.email.toLowerCase(),
+        createAt: createAt,
+        searchData: searchData(contactId, createAt, contact),
+        status: "pending",
+    });
+};
+const searchData = (contactId, createAt, contact) => {
+    const strings = [
+        contactId,
+        ...contact.firstName.split(" "),
+        ...contact.lastName.split(" "),
+        contact.phoneNumber,
+        contact.email,
+        contact.status || "pending",
+        (0, moment_1.default)(createAt).format("DD/MM/YYYY"),
+    ].filter((string) => string);
+    utils_1.logger.log("[SEARCH-DATA]", strings);
+    return (0, abstract_1.uniq)(strings);
+};
 //# sourceMappingURL=postContact.js.map
