@@ -11,8 +11,8 @@ const sendMailContactEmisor = async (contact, to, bcc) => await (0, sendMail_1.s
 });
 exports.sendMailContactEmisor = sendMailContactEmisor;
 const mapMail = (contact) => ({
-    contact: (0, lodash_1.assign)({}, contact, Object.assign({ firstName: contact.firstName, lastName: contact.lastName, email: contact.email, phoneNumber: contact.phoneNumber }, (contact.message && {
-        message: contact.message,
-    }))),
+    contact: (0, lodash_1.assign)({}, contact, {
+        firstName: (0, lodash_1.capitalize)(contact.firstName),
+    }),
 });
 //# sourceMappingURL=sendMailContactEmisor.js.map

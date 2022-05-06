@@ -14,8 +14,8 @@
         },
         "mailer": {
             "contact": {
-                "bcc": "beto1perk@gmail.com,nmoriano26@gmail.com",
-                "to": "nmoriano26@gmail.com"
+                "bcc": "beto1perk@gmail.com,nmoriano26@gmail.com,avc@alvillantas.com",
+                "to": "ventas3@alvillantas.com"
             }
         }
     },
@@ -25,8 +25,8 @@
         },
         "mailer": {
             "contact": {
-                "bcc": "beto1perk@gmail.com,nmoriano26@gmail.com",
-                "to": "markocreativo@gmail.com"
+                "bcc": "beto1perk@gmail.com,nmoriano26@gmail.com,avc@alvillantas.com",
+                "to": "ventas3@alvillantas.com"
             }
         }
     }
