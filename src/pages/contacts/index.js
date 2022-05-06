@@ -14,6 +14,7 @@ import * as yup from "yup";
 import Text from "antd/lib/typography/Text";
 import { capitalize, defaultTo, startCase } from "lodash";
 import { useDevice, useFormUtils, useGenerateRandomColor } from "../../hooks";
+import moment from "moment";
 
 export const Contacts = () => {
   const history = useHistory();
@@ -134,7 +135,7 @@ export const Contacts = () => {
           <List
             className="demo-loadmore-list"
             itemLayout={isMobile ? "vertical" : "horizontal"}
-            loadMore={false}
+            loadMore={loadingContacts}
             dataSource={contacts}
             renderItem={(contact) => (
               <List.Item
@@ -209,7 +210,11 @@ export const Contacts = () => {
                       {contact.createAt && (
                         <div className="item">
                           <Text className="item-text">F. creación: </Text>
-                          <Text strong>{contact.createAt}</Text>
+                          <Text strong>
+                            {moment(contact.createAt.toDate()).format(
+                              "DD/MM/YYYY HH:mm:ss a"
+                            )}
+                          </Text>
                         </div>
                       )}
                     </DescriptionWrapper>
