@@ -2,9 +2,7 @@ import express from "express";
 import cors from "cors";
 import { validateRequest, errorHandler } from "./_middlewares";
 import { body } from "express-validator";
-import { PostContact as PostContactMarkoCreativo } from "./markoCreativos";
-import { PostContact as PostContactServitec } from "./servitec";
-import { PostContact as PostContactOthers } from "./others";
+import { PostContact as PostContactAlvillantas } from "./alvillantas";
 
 const app: express.Application = express();
 
@@ -15,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => res.status(200).send("Welcome!").end());
 
 app.post(
-  "/marko-creativos/contact",
+  "/contact",
   [
     body("contact.firstName").exists(),
     body("contact.lastName").exists(),
@@ -23,32 +21,7 @@ app.post(
     body("contact.phone").exists(),
   ],
   validateRequest,
-  PostContactMarkoCreativo
-);
-
-app.post(
-  "/servitec/contact",
-  [
-    body("contact.firstName").exists(),
-    body("contact.lastName").exists(),
-    body("contact.phoneNumber").exists(),
-    body("contact.email").exists(),
-    body("contact.address").exists(),
-  ],
-  validateRequest,
-  PostContactServitec
-);
-
-app.post(
-  "/others/contact",
-  [
-    body("contact.firstName").exists(),
-    body("contact.lastName").exists(),
-    body("contact.phoneNumber").exists(),
-    body("contact.email").exists(),
-  ],
-  validateRequest,
-  PostContactOthers
+  PostContactAlvillantas
 );
 
 app.use(errorHandler);
