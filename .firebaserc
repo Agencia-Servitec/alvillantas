@@ -1,6 +1,6 @@
 {
   "projects": {
-    "default": "alvillantas-dev",
+    "default": "alvillantas",
     "dev": "alvillantas-dev"
   }
 }
