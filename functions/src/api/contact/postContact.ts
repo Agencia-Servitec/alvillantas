@@ -4,6 +4,9 @@ import {
   sendMailContactEmisor,
   sendMailContactReceptor,
 } from "../../mailer/alvillantas";
+import { firestore } from "../../_firebase";
+import { assign } from "lodash";
+import moment from "moment";
 
 interface Body {
   contact: ContactAlvillantas;
@@ -23,6 +26,8 @@ export const PostContact = async (
 
     if (!contact) res.status(412).send("error_no_found_contact_data").end();
 
+    await setContactUsers(contact.contact);
+
     await sendMailContactReceptor(contact.contact);
     await sendMailContactEmisor(contact.contact);
 
@@ -32,3 +37,19 @@ export const PostContact = async (
     next(error);
   }
 };
+
+const setContactUsers = async (contact: ContactAlvillantas) => {
+  await firestore.collection("contacts").doc().set(mapContact(contact));
+};
+
+const mapContact = (contact: ContactAlvillantas) =>
+  assign(
+    {},
+    { ...contact },
+    {
+      firstName: contact.firstName.toLowerCase(),
+      lastName: contact.lastName.toLowerCase(),
+      email: contact.email.toLowerCase(),
+      createAt: moment(),
+    }
+  );
