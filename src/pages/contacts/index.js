@@ -25,10 +25,8 @@ export const Contacts = () => {
 
   const { isMobile } = useDevice();
 
-  const navigateTo = (url) => history.push(url);
-
   const schema = yup.object({
-    firstName: yup.string().required(),
+    searchDataForm: yup.string().required(),
   });
 
   const {
@@ -53,15 +51,22 @@ export const Contacts = () => {
     });
   };
 
-  const onSubmitFetchContacts = (formData) => {
+  const onSubmitFetchContacts = async (formData) => {
     try {
       setLoadingContacts(true);
-      const contacts_ = contacts.filter((contact) =>
-        contact.firstName !== "all"
-          ? contact.firstName === formData.firstName
-          : true
-      );
-      setContacts(contacts_);
+
+      const searchData = formData.searchDataForm
+        .split(",")
+        .map((string) => string.trim());
+
+      await firestore
+        .collection("contacts")
+        .where("searchData", "array-contains-any", searchData)
+        .onSnapshot((snapshot) => {
+          const contactsData = querySnapshotToArray(snapshot);
+          setContacts(contactsData);
+          setLoadingContacts(false);
+        });
     } catch (e) {
       console.log("search:", e);
       notification({ type: "error" });
@@ -69,6 +74,8 @@ export const Contacts = () => {
       setLoadingContacts(false);
     }
   };
+
+  const navigateTo = (url) => history.push(url);
 
   const onResertContact = () => fetchContacts();
 
@@ -83,12 +90,12 @@ export const Contacts = () => {
           <Row gutter={[16, 15]}>
             <Col span={24}>
               <Controller
-                name="firstName"
+                name="searchDataForm"
                 control={control}
                 defaultValue=""
                 render={({ field: { onChange, value, name } }) => (
                   <Input
-                    label="Ingrese nombres"
+                    label="Ingrese datos de busqueda"
                     size="large"
                     name={name}
                     value={value}
@@ -98,6 +105,8 @@ export const Contacts = () => {
                   />
                 )}
               />
+              <br />
+              <Text keyboard>Ejemplo: noel,moriano,931136482</Text>
             </Col>
             <Col span={24}>
               <Wrapper>
@@ -159,19 +168,15 @@ export const Contacts = () => {
                 <List.Item.Meta
                   avatar={
                     <ContactPicture
-                      background={`#${Math.round(Math.random())}${color.slice(
-                        -5
-                      )}`}
-                      onClick={() => navigateTo(`/contacts/${contact.id}`)}
+                      background={`#${Math.round(
+                        Math.random() + contact.firstName.length
+                      )}${color.slice(-5)}`}
                     >
                       {contact.firstName.split("")[0].toUpperCase()}
                     </ContactPicture>
                   }
                   title={
-                    <h2
-                      className="link-color"
-                      onClick={() => navigateTo(`/contact/${contact.id}`)}
-                    >
+                    <h2 className="link-color">
                       {startCase(
                         capitalize(`${contact.firstName} ${contact.lastName}`)
                       )}
