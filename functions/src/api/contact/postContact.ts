@@ -5,7 +5,7 @@ import {
   sendMailContactReceptor,
 } from "../../mailer/alvillantas";
 import { firestore } from "../../_firebase";
-import { assign } from "lodash";
+import { assign, capitalize } from "lodash";
 import moment, { Moment } from "moment";
 import { uniq } from "../../utils/abstract";
 
@@ -55,12 +55,13 @@ const mapContact = (contactId: string, contact: ContactAlvillantas) => {
     { ...contact },
     {
       id: contactId,
+      issue: capitalize(contact.issue),
       firstName: contact.firstName.toLowerCase(),
       lastName: contact.lastName.toLowerCase(),
       email: contact.email.toLowerCase(),
-      createAt: createAt,
       searchData: searchData(contactId, createAt, contact),
       status: "pending",
+      createAt: createAt,
     }
   );
 };

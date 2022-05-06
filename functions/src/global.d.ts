@@ -7,6 +7,7 @@ interface ContactCommon {
 }
 
 interface ContactAlvillantas extends ContactCommon {
-  nationality?: string;
+  issue?: string;
   status?: string;
+  nationality?: string;
 }
