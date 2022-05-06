@@ -1,0 +1,28 @@
+{
+  "development": {
+    "version": "0.0.1",
+    "firebaseApp": {
+      "apiKey": "AIzaSyBrKGhNq9hTR8hNuWKKqR29cnxFWvd0FRw",
+      "authDomain": "alvillantas-dev.firebaseapp.com",
+      "projectId": "alvillantas-dev",
+      "storageBucket": "alvillantas-dev.appspot.com",
+      "messagingSenderId": "284359556870",
+      "appId": "1:284359556870:web:5495a2303617bb32b7a887"
+    },
+    "buckets": {},
+    "apiUrl": "-"
+  },
+  "production": {
+    "version": "0.0.1",
+    "firebaseApp": {
+      "apiKey": "AIzaSyBrKGhNq9hTR8hNuWKKqR29cnxFWvd0FRw",
+      "authDomain": "alvillantas-dev.firebaseapp.com",
+      "projectId": "alvillantas-dev",
+      "storageBucket": "alvillantas-dev.appspot.com",
+      "messagingSenderId": "284359556870",
+      "appId": "1:284359556870:web:5495a2303617bb32b7a887"
+    },
+    "buckets": {},
+    "apiUrl": "-"
+  }
+}
