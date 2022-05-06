@@ -10,19 +10,20 @@
       "appId": "1:284359556870:web:5495a2303617bb32b7a887"
     },
     "buckets": {},
-    "apiUrl": "-"
+    "apiUrl": "https://us-central1-alvillantas-dev.cloudfunctions.net/api"
   },
   "production": {
     "version": "0.0.1",
     "firebaseApp": {
-      "apiKey": "AIzaSyBrKGhNq9hTR8hNuWKKqR29cnxFWvd0FRw",
-      "authDomain": "alvillantas-dev.firebaseapp.com",
-      "projectId": "alvillantas-dev",
-      "storageBucket": "alvillantas-dev.appspot.com",
-      "messagingSenderId": "284359556870",
-      "appId": "1:284359556870:web:5495a2303617bb32b7a887"
+      "apiKey": "AIzaSyC_QS3YYJIng72YCQgox1p7gdN-TwAvzHc",
+      "authDomain": "alvillantas.firebaseapp.com",
+      "projectId": "alvillantas",
+      "storageBucket": "alvillantas.appspot.com",
+      "messagingSenderId": "253344283563",
+      "appId": "1:253344283563:web:8db44cfe3b75c6a7a870ee",
+      "measurementId": "G-QF1V4T2C8X"
     },
     "buckets": {},
-    "apiUrl": "-"
+    "apiUrl": "https://us-central1-alvillantas.cloudfunctions.net/api"
   }
 }
