@@ -33,6 +33,7 @@ export const Contacts = () => {
     formState: { errors },
     handleSubmit,
     control,
+    reset,
   } = useForm({
     resolver: yupResolver(schema),
   });
@@ -77,7 +78,13 @@ export const Contacts = () => {
 
   const navigateTo = (url) => history.push(url);
 
-  const onResertContact = () => fetchContacts();
+  const onResertContact = () => {
+    reset({
+      searchDataForm: "",
+    });
+
+    return fetchContacts();
+  };
 
   return (
     <Row gutter={[16, 16]}>
@@ -105,6 +112,11 @@ export const Contacts = () => {
                   />
                 )}
               />
+              <br />
+              <Text>
+                Puedes realizar la busqueda con los siguientes datos: nombres,
+                apellidos, teléfono, email, estado
+              </Text>
               <br />
               <Text keyboard>Ejemplo: noel,moriano,931136482</Text>
             </Col>
