@@ -1,25 +1,25 @@
 import { template } from "./templates";
 import { html, sendMail } from "../sendMail";
-import { assign, toUpper } from "lodash";
+import { assign } from "lodash";
 
 interface Mail {
-  contact: ContactOther;
+  contact: ContactAlvillantas;
 }
 
 export const sendMailContactEmisor = async (
-  contact: ContactOther,
+  contact: ContactAlvillantas,
   to?: string,
   bcc?: string
 ): Promise<void> =>
   await sendMail({
     to: contact.email,
-    subject: "Contacto sitio web",
+    subject: "Gracias por su mensaje",
     html: html(template.contactEmailEmisor, mapMail(contact)),
   });
 
-const mapMail = (contact: ContactOther): Mail => ({
+const mapMail = (contact: ContactAlvillantas): Mail => ({
   contact: assign({}, contact, {
-    firstName: toUpper(contact.firstName),
+    firstName: contact.firstName,
     lastName: contact.lastName,
     email: contact.email,
     phoneNumber: contact.phoneNumber,

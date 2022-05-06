@@ -3,10 +3,10 @@ import { NextFunction, Request, Response } from "express";
 import {
   sendMailContactEmisor,
   sendMailContactReceptor,
-} from "../../mailer/others";
+} from "../../mailer/alvillantas";
 
 interface Body {
-  contact: ContactOther;
+  contact: ContactAlvillantas;
 }
 
 export const PostContact = async (
@@ -17,7 +17,7 @@ export const PostContact = async (
   try {
     const { body: contact } = req;
 
-    logger.log("「Contact others」Initialize", {
+    logger.log("「Contact alvillantas」Initialize", {
       body: req.body,
     });
 
