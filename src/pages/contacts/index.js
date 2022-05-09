@@ -4,7 +4,6 @@ import Title from "antd/es/typography/Title";
 import { Divider, List, Skeleton } from "antd";
 import Row from "antd/lib/row";
 import Col from "antd/lib/col";
-import { useHistory } from "react-router";
 import { Form, Input, notification } from "../../components/ui";
 import Button from "antd/lib/button";
 import styled from "styled-components";
@@ -17,13 +16,11 @@ import { useDevice, useFormUtils, useGenerateRandomColor } from "../../hooks";
 import moment from "moment";
 
 export const Contacts = () => {
-  const history = useHistory();
   const [contacts, setContacts] = useState([]);
   const [loadingContacts, setLoadingContacts] = useState(true);
 
-  const { color } = useGenerateRandomColor();
-
   const { isMobile } = useDevice();
+  const { color } = useGenerateRandomColor();
 
   const schema = yup.object({
     searchDataForm: yup.string().required(),
@@ -75,8 +72,6 @@ export const Contacts = () => {
       setLoadingContacts(false);
     }
   };
-
-  const navigateTo = (url) => history.push(url);
 
   const onResertContact = () => {
     reset({
