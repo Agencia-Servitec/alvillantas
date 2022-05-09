@@ -1,6 +1,6 @@
 {
   "development": {
-    "version": "0.0.2",
+    "version": "0.0.3",
     "firebaseApp": {
       "apiKey": "AIzaSyBrKGhNq9hTR8hNuWKKqR29cnxFWvd0FRw",
       "authDomain": "alvillantas-dev.firebaseapp.com",
@@ -14,7 +14,7 @@
     "ipInfoApi": "https://ipinfo.io/json?token=09c720dcbb804f"
   },
   "production": {
-    "version": "0.0.2",
+    "version": "0.0.3",
     "firebaseApp": {
       "apiKey": "AIzaSyC_QS3YYJIng72YCQgox1p7gdN-TwAvzHc",
       "authDomain": "alvillantas.firebaseapp.com",
