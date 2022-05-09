@@ -17,7 +17,7 @@ console.log(currentEnvironment);
 
 const currentConfig = configs[currentEnvironment];
 
-const { firebaseApp, version, apiUrl } = currentConfig;
+const { firebaseApp, version, apiUrl, ipInfoApi } = currentConfig;
 
 console.log("version->", version);
 
@@ -54,6 +54,7 @@ export {
   buckets,
   version,
   apiUrl,
+  ipInfoApi,
   currentConfig,
   imageResizes,
 };

@@ -10,7 +10,8 @@
       "appId": "1:284359556870:web:5495a2303617bb32b7a887"
     },
     "buckets": {},
-    "apiUrl": "https://us-central1-alvillantas-dev.cloudfunctions.net/api"
+    "apiUrl": "https://us-central1-alvillantas-dev.cloudfunctions.net/api",
+    "ipInfoApi": "https://ipinfo.io/json?token=09c720dcbb804f"
   },
   "production": {
     "version": "0.0.2",
@@ -24,6 +25,7 @@
       "measurementId": "G-QF1V4T2C8X"
     },
     "buckets": {},
-    "apiUrl": "https://us-central1-alvillantas.cloudfunctions.net/api"
+    "apiUrl": "https://us-central1-alvillantas.cloudfunctions.net/api",
+    "ipInfoApi": "https://ipinfo.io/json?token=09c720dcbb804f"
   }
 }
