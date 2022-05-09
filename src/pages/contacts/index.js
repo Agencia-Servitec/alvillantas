@@ -11,7 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Text from "antd/lib/typography/Text";
-import { capitalize, defaultTo, startCase } from "lodash";
+import { capitalize, defaultTo, startCase, toUpper, toLower } from "lodash";
 import { useDevice, useFormUtils, useGenerateRandomColor } from "../../hooks";
 import moment from "moment";
 
@@ -55,7 +55,7 @@ export const Contacts = () => {
 
       const searchData = formData.searchDataForm
         .split(",")
-        .map((string) => string.trim());
+        .map((string) => toLower(string.trim()));
 
       await firestore
         .collection("contacts")
@@ -110,10 +110,13 @@ export const Contacts = () => {
               <br />
               <Text>
                 Puedes realizar la busqueda con los siguientes datos: nombres,
-                apellidos, teléfono, email, estado
+                apellidos, teléfono, email, f.creación, status
               </Text>
               <br />
-              <Text keyboard>Ejemplo: noel,moriano,931136482</Text>
+              <Text keyboard>
+                Ejemplo: noel, moriano, 931136482, noel@gmail.com, 01/12/2022,
+                pending
+              </Text>
             </Col>
             <Col span={24}>
               <Wrapper>
@@ -175,11 +178,13 @@ export const Contacts = () => {
                 <List.Item.Meta
                   avatar={
                     <ContactPicture
-                      background={`#${Math.round(
-                        Math.random() + contact.firstName.length
-                      )}${color.slice(-5)}`}
+                      background={toUpper(
+                        `#${Math.round(
+                          Math.random() + contact.firstName.length
+                        )}${color.slice(-5)}`
+                      )}
                     >
-                      {contact.firstName.split("")[0].toUpperCase()}
+                      {toUpper(contact.firstName.split("")[0])}
                     </ContactPicture>
                   }
                   title={
@@ -201,7 +206,7 @@ export const Contacts = () => {
                       </div>
                       <div className="item">
                         <Text className="item-text">Email: </Text>
-                        <Text strong>{contact.email.toLowerCase()}</Text>
+                        <Text strong>{contact.email}</Text>
                       </div>
                       <div className="item">
                         <Text className="item-text">Teléfono: </Text>
