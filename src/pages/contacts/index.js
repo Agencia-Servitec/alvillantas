@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { firestore, querySnapshotToArray } from "../../firebase";
 import Title from "antd/es/typography/Title";
-import { Divider, List, Skeleton } from "antd";
+import { Divider, List, Skeleton, Tag } from "antd";
 import Row from "antd/lib/row";
 import Col from "antd/lib/col";
 import { Form, Input, notification } from "../../components/ui";
@@ -11,7 +11,14 @@ import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Text from "antd/lib/typography/Text";
-import { capitalize, defaultTo, startCase, toUpper, toLower } from "lodash";
+import {
+  capitalize,
+  defaultTo,
+  startCase,
+  toUpper,
+  toLower,
+  orderBy,
+} from "lodash";
 import { useDevice, useFormUtils, useGenerateRandomColor } from "../../hooks";
 import moment from "moment";
 
@@ -73,13 +80,15 @@ export const Contacts = () => {
     }
   };
 
-  const onResertContact = () => {
+  const onResetContact = () => {
     reset({
       searchDataForm: "",
     });
 
     return fetchContacts();
   };
+
+  const viewContacts = () => orderBy(contacts, ["createAt"], ["desc"]);
 
   return (
     <Row gutter={[16, 16]}>
@@ -109,8 +118,9 @@ export const Contacts = () => {
               />
               <br />
               <Text>
-                Puedes realizar la busqueda con los siguientes datos: nombres,
-                apellidos, teléfono, email, f.creación, status
+                Puedes realizar la busqueda con los siguientes datos, separados
+                por comas (,): nombres, apellidos, teléfono, email, f.creación,
+                status
               </Text>
               <br />
               <Text keyboard>
@@ -123,7 +133,7 @@ export const Contacts = () => {
                 <Button
                   type="default"
                   size="large"
-                  onClick={() => onResertContact()}
+                  onClick={() => onResetContact()}
                   loading={loadingContacts}
                   disabled={loadingContacts}
                 >
@@ -155,7 +165,7 @@ export const Contacts = () => {
             className="demo-loadmore-list"
             itemLayout={isMobile ? "vertical" : "horizontal"}
             loadMore={loadingContacts}
-            dataSource={contacts}
+            dataSource={viewContacts()}
             renderItem={(contact) => (
               <List.Item
                 actions={
@@ -234,6 +244,30 @@ export const Contacts = () => {
                           </Text>
                         </div>
                       )}
+                      <div className="item">
+                        <Text className="item-text">Host name: </Text>
+                        <Text strong>
+                          <a
+                            href={
+                              contact?.hostname
+                                ? `https://${contact.hostname}`
+                                : "#"
+                            }
+                            target="_blank"
+                            rel="noreferrer"
+                          >
+                            <Tag
+                              color={
+                                contact.hostname === "hankookalvillantas.com"
+                                  ? "magenta"
+                                  : "volcano"
+                              }
+                            >
+                              {contact.hostname || ""}
+                            </Tag>
+                          </a>
+                        </Text>
+                      </div>
                     </DescriptionWrapper>
                   }
                 />
