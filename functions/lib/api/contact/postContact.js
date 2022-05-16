@@ -56,6 +56,7 @@ const searchData = (contactId, createAt, contact) => {
         ...contact.lastName.split(" "),
         contact.phoneNumber,
         contact.email,
+        (contact === null || contact === void 0 ? void 0 : contact.hostname) || "",
         contact.status || "pending",
         (0, moment_1.default)(createAt).format("DD/MM/YYYY"),
     ].filter((string) => string);

@@ -4,23 +4,25 @@ import Title from "antd/es/typography/Title";
 import { Divider, List, Skeleton, Tag } from "antd";
 import Row from "antd/lib/row";
 import Col from "antd/lib/col";
-import { Form, Input, notification } from "../../components/ui";
+import { Form, IconAction, Input, notification } from "../../components/ui";
 import Button from "antd/lib/button";
 import styled from "styled-components";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Text from "antd/lib/typography/Text";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import {
   capitalize,
   defaultTo,
-  startCase,
-  toUpper,
-  toLower,
   orderBy,
+  startCase,
+  toLower,
+  toUpper,
 } from "lodash";
 import { useDevice, useFormUtils, useGenerateRandomColor } from "../../hooks";
 import moment from "moment";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 export const Contacts = () => {
   const [contacts, setContacts] = useState([]);
@@ -88,6 +90,8 @@ export const Contacts = () => {
     return fetchContacts();
   };
 
+  const navigateTo = (url) => window.open(url, "_blank");
+
   const viewContacts = () => orderBy(contacts, ["createAt"], ["desc"]);
 
   return (
@@ -120,12 +124,12 @@ export const Contacts = () => {
               <Text>
                 Puedes realizar la busqueda con los siguientes datos, separados
                 por comas (,): nombres, apellidos, teléfono, email, f.creación,
-                status
+                hostname, status
               </Text>
               <br />
               <Text keyboard>
                 Ejemplo: noel, moriano, 931136482, noel@gmail.com, 01/12/2022,
-                pending
+                alvillantas.com, pending
               </Text>
             </Col>
             <Col span={24}>
@@ -168,22 +172,26 @@ export const Contacts = () => {
             dataSource={viewContacts()}
             renderItem={(contact) => (
               <List.Item
-                actions={
-                  [
-                    // <IconAction
-                    //   onClick={() => navigateTo(`/contacts/${contact.id}`)}
-                    //   styled={{ color: (theme) => theme.colors.heading }}
-                    //   tooltipTitle="Editar"
-                    //   icon={faEdit}
-                    // />,
-                    // <IconAction
-                    //   onClick={() => onDeleteContact(contact.id)}
-                    //   tooltipTitle="Eliminar"
-                    //   styled={{ color: (theme) => theme.colors.error }}
-                    //   icon={faTrash}
-                    // />,
-                  ]
-                }
+                actions={[
+                  <IconAction
+                    key={contact.id}
+                    onClick={() =>
+                      navigateTo(`https://wa.me/${contact.phoneNumber}`)
+                    }
+                    size={65}
+                    style={{ color: "#65d844" }}
+                    tooltipTitle="Whatsapp"
+                    icon={faWhatsapp}
+                  />,
+                  <IconAction
+                    key={contact.id}
+                    onClick={() => navigateTo(`mailto:${contact.email}`)}
+                    size={65}
+                    tooltipTitle="Email"
+                    styled={{ color: (theme) => theme.colors.error }}
+                    icon={faEnvelope}
+                  />,
+                ]}
               >
                 <List.Item.Meta
                   avatar={
