@@ -176,7 +176,7 @@ export const Contacts = () => {
                   <IconAction
                     key={contact.id}
                     onClick={() =>
-                      navigateTo(`https://wa.me/${contact.phoneNumber}`)
+                      navigateTo(`https://wa.me/+51${contact.phoneNumber}`)
                     }
                     size={65}
                     style={{ color: "#65d844" }}
