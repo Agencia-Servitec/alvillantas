@@ -24,6 +24,15 @@ export const Routes = () => (
         </BaseLayout>
       )}
     />
+    <Route
+      exact
+      path="/contacts/:contactId"
+      render={() => (
+        <BaseLayout>
+          <Contacts />
+        </BaseLayout>
+      )}
+    />
     <Route exact path="/403" component={Page403} />
     <Route path="*" component={Page404} />
     <Redirect to="/" />
