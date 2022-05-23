@@ -5,16 +5,16 @@ import Timeline from "antd/lib/timeline";
 import { useParams } from "react-router";
 import { firestore } from "../../../firebase";
 import {
-  useDocumentDataOnce,
   useCollectionData,
+  useDocumentDataOnce,
 } from "react-firebase-hooks/firestore";
 import { IconAction, notification, Spinner } from "../../../components/ui";
 import Title from "antd/lib/typography/Title";
+import Text from "antd/lib/typography/Text";
 import styled from "styled-components";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
-import Divider from "antd/lib/divider";
 import { orderBy } from "lodash";
 
 export const Contact = () => {
@@ -50,7 +50,8 @@ export const Contact = () => {
         </Col>
         <Col span={8} />
         <Col span={8} align="end">
-          <Title level={5}>{contact.email.toUpperCase()}</Title>
+          <Title level={5}>{contact.email.toLowerCase()}</Title>
+          <Text>{contact.phoneNumber}</Text>
           <WrapperSocials>
             <ul>
               <li>
@@ -81,9 +82,6 @@ export const Contact = () => {
           </WrapperSocials>
         </Col>
       </Row>
-
-      <Divider />
-
       <Row>
         <Col span={24}>
           <Timeline mode="alternate">
@@ -102,6 +100,9 @@ export const Contact = () => {
                     </li>
                     <li>
                       <h3>{contact.issue || "-"}</h3>
+                    </li>
+                    <li>
+                      <h4>{contact.phoneNumber || "-"}</h4>
                     </li>
                     <li>
                       <p>{contact.message || "-"}</p>
