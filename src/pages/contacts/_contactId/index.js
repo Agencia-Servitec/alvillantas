@@ -1,78 +1,140 @@
-// import React, { useEffect, useState } from "react";
-// import Row from "antd/lib/row";
-// import Col from "antd/lib/col";
-// import { useHistory, useParams } from "react-router";
-// import Title from "antd/es/typography/Title";
-// import { Tabs } from "antd";
-// import { AnimeInformation } from "./AnimeInformation";
-// import { AnimeEpisodes } from "./AnimeEpisodes";
-// import { firestore } from "../../../firebase";
-// import { useDefaultFirestoreProps } from "../../../hooks";
-// import { Spinner } from "../../../components/ui";
-// import { capitalize, get, isEmpty, startCase } from "lodash";
-//
-// const { TabPane } = Tabs;
-//
-// export const Anime = () => {
-//   const { animeId } = useParams();
-//
-//   const [anime, setAnime] = useState({});
-//   const [loadingAnime, setLoadingAnime] = useState(true);
-//
-//   const history = useHistory();
-//
-//   const { assignCreateProps } = useDefaultFirestoreProps();
-//
-//   useEffect(() => {
-//     fetchAnime();
-//   }, [animeId]);
-//
-//   const fetchAnime = async () => {
-//     try {
-//       if (animeId === "new")
-//         return setAnime(
-//           assignCreateProps({ id: firestore.collection("animes").doc().id })
-//         );
-//
-//       const animeQuery = await firestore
-//         .collection("animes")
-//         .doc(animeId)
-//         .get();
-//
-//       const anime_ = await animeQuery.data();
-//
-//       if (isEmpty(anime_)) return history.push("/animes");
-//
-//       setAnime(anime_);
-//     } catch (e) {
-//       console.log("[Error fetch anime]->", e);
-//       history.push("/animes");
-//     } finally {
-//       setLoadingAnime(false);
-//     }
-//   };
-//
-//   const navigateTo = (url) => history.push(url);
-//
-//   if (loadingAnime || !anime) return <Spinner height="50vh" />;
-//
-//   return (
-//     <Row>
-//       <Col span={24}>
-//         <Title level={2}>
-//           {startCase(capitalize(get(anime, "name", "-")))}
-//         </Title>
-//       </Col>
-//       <Col span={24}>
-//         <Tabs type="card">
-//           <TabPane tab="Información" key="1">
-//             <AnimeInformation anime={anime} />
-//           </TabPane>
-//           <TabPane tab="Episodios" key="2" disabled={animeId === "new"}>
-//             <AnimeEpisodes anime={anime} navigateTo={navigateTo} />
-//           </TabPane>
-//         </Tabs>
-//       </Col>
-//     </Row>
-//   );
-// };
+import React, { useEffect } from "react";
+import Row from "antd/lib/row";
+import Col from "antd/lib/col";
+import Timeline from "antd/lib/timeline";
+import { useParams } from "react-router";
+import { firestore } from "../../../firebase";
+import {
+  useCollectionData,
+  useDocumentDataOnce,
+} from "react-firebase-hooks/firestore";
+import { IconAction, notification, Spinner } from "../../../components/ui";
+import Title from "antd/lib/typography/Title";
+import Text from "antd/lib/typography/Text";
+import styled from "styled-components";
+import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import moment from "moment";
+import { orderBy } from "lodash";
+
+export const Contact = () => {
+  const { contactId } = useParams();
+
+  const [contact, loadingContact, errorContact] = useDocumentDataOnce(
+    firestore.collection("contacts").doc(contactId)
+  );
+
+  const [contacts = [], loadingContacts, errorContacts] = useCollectionData(
+    contact
+      ? firestore.collection("contacts").where("email", "==", contact?.email)
+      : null
+  );
+
+  useEffect(() => {
+    if (errorContact || errorContacts) return notification({ type: "error" });
+  }, [errorContact, errorContacts]);
+
+  const navigateWithBlankTo = (url) => window.open(url, "_blank");
+
+  const viewContacts = () => orderBy(contacts, ["createAt"], ["desc"]);
+
+  if (loadingContact || loadingContacts) return <Spinner fullscreen />;
+
+  return (
+    <>
+      <Row>
+        <Col span={8}>
+          <Title level={3}>
+            {`${contact.firstName} ${contact.lastName}`.toUpperCase()}
+          </Title>
+        </Col>
+        <Col span={8} />
+        <Col span={8} align="end">
+          <Title level={5}>{contact.email.toLowerCase()}</Title>
+          <Text>{contact.phoneNumber}</Text>
+          <WrapperSocials>
+            <ul>
+              <li>
+                <IconAction
+                  key={contact.id}
+                  onClick={() =>
+                    navigateWithBlankTo(
+                      `https://wa.me/+51${contact.phoneNumber}`
+                    )
+                  }
+                  size={50}
+                  style={{ color: "#65d844" }}
+                  tooltipTitle="Whatsapp"
+                  icon={faWhatsapp}
+                />
+              </li>
+              <li>
+                <IconAction
+                  key={contact.id}
+                  onClick={() => navigateWithBlankTo(`mailto:${contact.email}`)}
+                  size={50}
+                  tooltipTitle="Email"
+                  styled={{ color: (theme) => theme.colors.error }}
+                  icon={faEnvelope}
+                />
+              </li>
+            </ul>
+          </WrapperSocials>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={24}>
+          <Timeline mode="alternate">
+            {viewContacts().map((contact, index) => (
+              <Timeline.Item key={index} color={index % 2 ? "green" : "red"}>
+                <WrapperTimeLineItem>
+                  <ul>
+                    <li>
+                      <h5>
+                        <strong>
+                          {moment(contact.createAt.toDate()).format(
+                            "DD/MM/YYYY HH:mm:ss a"
+                          )}
+                        </strong>
+                      </h5>
+                    </li>
+                    <li>
+                      <h3>{contact.issue || "-"}</h3>
+                    </li>
+                    <li>
+                      <h4>{contact.phoneNumber || "-"}</h4>
+                    </li>
+                    <li>
+                      <p>{contact.message || "-"}</p>
+                    </li>
+                  </ul>
+                </WrapperTimeLineItem>
+              </Timeline.Item>
+            ))}
+          </Timeline>
+        </Col>
+      </Row>
+    </>
+  );
+};
+
+const WrapperSocials = styled.div`
+  ul {
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+  }
+`;
+
+const WrapperTimeLineItem = styled.div`
+  ul {
+    list-style: none;
+    padding: 0;
+    li {
+      h3 {
+        color: #1890ff;
+      }
+    }
+  }
+`;

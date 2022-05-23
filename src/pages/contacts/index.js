@@ -23,11 +23,13 @@ import {
 import { useDevice, useFormUtils, useGenerateRandomColor } from "../../hooks";
 import moment from "moment";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { useHistory } from "react-router";
 
 export const Contacts = () => {
   const [contacts, setContacts] = useState([]);
   const [loadingContacts, setLoadingContacts] = useState(true);
 
+  const history = useHistory();
   const { isMobile } = useDevice();
   const { color } = useGenerateRandomColor();
 
@@ -90,7 +92,9 @@ export const Contacts = () => {
     return fetchContacts();
   };
 
-  const navigateTo = (url) => window.open(url, "_blank");
+  const navigateWithBlankTo = (url) => window.open(url, "_blank");
+
+  const navigateTo = (url) => history.push(url);
 
   const viewContacts = () => orderBy(contacts, ["createAt"], ["desc"]);
 
@@ -176,7 +180,9 @@ export const Contacts = () => {
                   <IconAction
                     key={contact.id}
                     onClick={() =>
-                      navigateTo(`https://wa.me/+51${contact.phoneNumber}`)
+                      navigateWithBlankTo(
+                        `https://wa.me/+51${contact.phoneNumber}`
+                      )
                     }
                     size={65}
                     style={{ color: "#65d844" }}
@@ -185,7 +191,9 @@ export const Contacts = () => {
                   />,
                   <IconAction
                     key={contact.id}
-                    onClick={() => navigateTo(`mailto:${contact.email}`)}
+                    onClick={() =>
+                      navigateWithBlankTo(`mailto:${contact.email}`)
+                    }
                     size={65}
                     tooltipTitle="Email"
                     styled={{ color: (theme) => theme.colors.error }}
@@ -196,6 +204,7 @@ export const Contacts = () => {
                 <List.Item.Meta
                   avatar={
                     <ContactPicture
+                      onClick={() => navigateTo(`/contacts/${contact.id}`)}
                       background={toUpper(
                         `#${Math.round(
                           Math.random() + contact.firstName.length
@@ -206,7 +215,10 @@ export const Contacts = () => {
                     </ContactPicture>
                   }
                   title={
-                    <h2 className="link-color">
+                    <h2
+                      className="link-color"
+                      onClick={() => navigateTo(`/contacts/${contact.id}`)}
+                    >
                       {startCase(
                         capitalize(`${contact.firstName} ${contact.lastName}`)
                       )}
