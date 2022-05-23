@@ -13,7 +13,7 @@ import Title from "antd/lib/typography/Title";
 import Text from "antd/lib/typography/Text";
 import styled from "styled-components";
 import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import { orderBy } from "lodash";
 
@@ -43,13 +43,13 @@ export const Contact = () => {
   return (
     <>
       <Row>
-        <Col span={8}>
+        <Col xs={24} sm={24} md={8}>
           <Title level={3}>
             {`${contact.firstName} ${contact.lastName}`.toUpperCase()}
           </Title>
         </Col>
-        <Col span={8} />
-        <Col span={8} align="end">
+        <Col xs={24} sm={24} md={8} />
+        <Col xs={24} sm={24} md={8} align="end">
           <Title level={5}>{contact.email.toLowerCase()}</Title>
           <Text>{contact.phoneNumber}</Text>
           <WrapperSocials>
@@ -76,6 +76,18 @@ export const Contact = () => {
                   tooltipTitle="Email"
                   styled={{ color: (theme) => theme.colors.error }}
                   icon={faEnvelope}
+                />
+              </li>
+              <li>
+                <IconAction
+                  key={contact.id}
+                  onClick={() =>
+                    navigateWithBlankTo(`tel:${contact.phoneNumber}`)
+                  }
+                  size={45}
+                  style={{ color: "#0583ea" }}
+                  tooltipTitle="Teléfono"
+                  icon={faPhone}
                 />
               </li>
             </ul>
@@ -119,11 +131,15 @@ export const Contact = () => {
 };
 
 const WrapperSocials = styled.div`
+  margin: 1rem 0 2rem 0;
   ul {
     padding: 0;
     list-style: none;
     display: flex;
     justify-content: flex-end;
+    li {
+      margin-left: 0.5rem;
+    }
   }
 `;
 

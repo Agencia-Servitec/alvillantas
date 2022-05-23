@@ -22,7 +22,7 @@ import {
 } from "lodash";
 import { useDevice, useFormUtils, useGenerateRandomColor } from "../../hooks";
 import moment from "moment";
-import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import { useHistory } from "react-router";
 
 export const Contacts = () => {
@@ -198,6 +198,16 @@ export const Contacts = () => {
                     tooltipTitle="Email"
                     styled={{ color: (theme) => theme.colors.error }}
                     icon={faEnvelope}
+                  />,
+                  <IconAction
+                    key={contact.id}
+                    onClick={() =>
+                      navigateWithBlankTo(`tel:${contact.phoneNumber}`)
+                    }
+                    size={55}
+                    style={{ color: "#0583ea" }}
+                    tooltipTitle="Teléfono"
+                    icon={faPhone}
                   />,
                 ]}
               >
