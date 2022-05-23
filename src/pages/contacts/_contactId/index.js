@@ -16,6 +16,7 @@ import { faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
 import moment from "moment";
 import { orderBy } from "lodash";
+import { Tag } from "antd";
 
 export const Contact = () => {
   const { contactId } = useParams();
@@ -118,6 +119,29 @@ export const Contact = () => {
                     </li>
                     <li>
                       <p>{contact.message || "-"}</p>
+                    </li>
+                    <li>
+                      <Text strong>
+                        <a
+                          href={
+                            contact?.hostname
+                              ? `https://${contact.hostname}`
+                              : "#"
+                          }
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <Tag
+                            color={
+                              contact.hostname === "hankookalvillantas.com"
+                                ? "magenta"
+                                : "volcano"
+                            }
+                          >
+                            {contact.hostname || ""}
+                          </Tag>
+                        </a>
+                      </Text>
                     </li>
                   </ul>
                 </WrapperTimeLineItem>
