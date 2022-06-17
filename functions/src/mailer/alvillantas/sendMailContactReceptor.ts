@@ -5,6 +5,8 @@ import { environmentConfig } from "../../config";
 
 interface Mail {
   contact: ContactAlvillantas;
+  hostNameAlvillantas: boolean;
+  hostNameHankookAlvillantas: boolean;
 }
 
 const { mailer } = environmentConfig;
@@ -23,17 +25,22 @@ export const sendMailContactReceptor = async (
     html: html(template.contactEmailReceptor, mapMail(contact)),
   });
 
-const mapMail = (contact: ContactAlvillantas): Mail => ({
-  contact: assign({}, contact, {
-    firstName: capitalize(contact.firstName),
-    lastName: contact.lastName,
-    email: contact.email,
-    phoneNumber: contact.phoneNumber,
-    ...(contact.issue && {
-      issue: capitalize(contact.issue),
+const mapMail = (contact: ContactAlvillantas): Mail =>
+  <Mail>{
+    contact: assign({}, contact, {
+      firstName: capitalize(contact.firstName),
+      lastName: contact.lastName,
+      email: contact.email,
+      phoneNumber: contact.phoneNumber,
+      ...(contact.issue && {
+        issue: capitalize(contact.issue),
+      }),
+      ...(contact.message && {
+        message: contact.message,
+      }),
     }),
-    ...(contact.message && {
-      message: contact.message,
-    }),
-  }),
-});
+    hostNameAlvillantas:
+      contact.hostname === "alvillantas.com" ||
+      contact.hostname === "www.alvillantas.com",
+    hostNameHankookAlvillantas: contact.hostname === "hankookalvillantas.com",
+  };

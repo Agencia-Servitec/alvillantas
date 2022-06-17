@@ -4,6 +4,8 @@ import { assign, capitalize } from "lodash";
 
 interface Mail {
   contact: ContactAlvillantas;
+  hostNameAlvillantas: boolean;
+  hostNameHankookAlvillantas: boolean;
 }
 
 export const sendMailContactEmisor = async (
@@ -21,4 +23,8 @@ const mapMail = (contact: ContactAlvillantas): Mail => ({
   contact: assign({}, contact, {
     firstName: capitalize(contact.firstName),
   }),
+  hostNameAlvillantas:
+    contact.hostname === "alvillantas.com" ||
+    contact.hostname === "www.alvillantas.com",
+  hostNameHankookAlvillantas: contact.hostname === "hankookalvillantas.com",
 });
